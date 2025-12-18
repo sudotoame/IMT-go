@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-const IMTPower = 2 // untyped int - это строго нетипизированный тип инт
+const IMTPower = 2 
 
 func main() {
 	fmt.Println("___ Калькулятор индекса тела ___")
@@ -13,6 +13,9 @@ func main() {
 	// getUserInput("Введите свой рост в сантиметрах: ", &userHeight)
 	// getUserInput("Введите свой вес в килограммах: ", &userWeight)
 	IMT := calculateIMT(userHeight, userWeight)
+	if IMT < 16 {
+		fmt.Println("Сильный дефицит массы тела")
+	}
 	outputResult(IMT)
 }
 
