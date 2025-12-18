@@ -1,3 +1,3 @@
-module demo/app-1
+module demo/app-2
 
-go 1.25.4
+go 1.25.5
