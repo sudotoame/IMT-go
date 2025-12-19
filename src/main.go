@@ -5,21 +5,48 @@ import (
 	"math"
 )
 
-const IMTPower = 2 
+const IMTPower = 2
 
 func main() {
-	fmt.Println("___ Калькулятор индекса тела ___")
-	userHeight, userWeight := userScanGet()
-	// getUserInput("Введите свой рост в сантиметрах: ", &userHeight)
-	// getUserInput("Введите свой вес в килограммах: ", &userWeight)
-	IMT := calculateIMT(userHeight, userWeight)
-	if IMT < 16 {
-		fmt.Println("Сильный дефицит массы тела")
+	for {
+		fmt.Println("___ Калькулятор индекса тела ___")
+		userHeight, userWeight := getUserInput()
+		IMT := calculateIMT(userHeight, userWeight)
+		outputResult(IMT)
+		printIMTStatus(IMT)
+		isReapeatCalculation := isContinue()
+		if !isReapeatCalculation {
+			break
+		}
 	}
-	outputResult(IMT)
 }
 
-func userScanGet() (float64, float64) {
+func isContinue() bool {
+	var checkIsContinue string
+	fmt.Println("Вычислить еще раз?(y/n)")
+	fmt.Scan(&checkIsContinue)
+	if checkIsContinue == "y" || checkIsContinue == "Y" {
+		return true
+	}
+	return false
+}
+
+func printIMTStatus(IMT float64) {
+	switch {
+	case IMT < 16:
+		fmt.Println("У вас сильный дефицит массы тела")
+	case IMT < 18.5:
+		fmt.Println("У вас дефицит массы тела")
+	case IMT < 25:
+		fmt.Println("У вас норма массы тела")
+	case IMT < 30:
+		fmt.Println("У вас избыточная масса тела")
+	default:
+		fmt.Println("У вас какая-то степень ожирение")
+	}
+}
+
+func getUserInput() (float64, float64) {
 	var userHeight float64
 	var userWeight float64
 	fmt.Print("Введите свой рост в сантиметрах: ")
@@ -29,11 +56,6 @@ func userScanGet() (float64, float64) {
 	return userHeight, userWeight
 }
 
-func getUserInput(text string, Data *float64) {
-	fmt.Print(text)
-	fmt.Scan(Data)
-}
-
 func calculateIMT(Height float64, Weight float64) float64 {
 	result := Weight / math.Pow(Height/100, IMTPower)
 	return result
@@ -41,5 +63,5 @@ func calculateIMT(Height float64, Weight float64) float64 {
 
 func outputResult(IMT float64) {
 	result := fmt.Sprintf("Ваш индекс тела: %.f", IMT)
-	fmt.Print(result)
+	fmt.Println(result)
 }
